@@ -86,8 +86,16 @@ create view visao_alunos as (select d.idDisciplina as Código,a.nome as Nome,d.n
 							 from aluno as a,disciplina as d, turma_has_aluno as tha, turma as t 
 							 where a.idaluno = tha.aluno_idAluno and tha.turma_idturma = t.idturma
 							 and t.disciplina_idDisciplina = d.idDisciplina);
+
+create view home_aluno as (select d.nome as disciplina_nome ,t.local_aula as local_aula ,h.horario as horario ,p.nome as professor_nome from 
+						  turma as t, disciplina as d,horario as h,professor as p, turma_has_aluno as tha, aluno as a where
+						  ((t.professor_matriculaprofessor = p.matricula and t.disciplina_idDisciplina = d.idDisciplina and h.turma_idTurma = t.idTurma 
+						  and t.idTurma = tha.turma_idTurma and tha.aluno_matriculaaluno = a.matricula) 
+						  and a.matricula = x)
+						  );
 							 
-							 
-							 
+select * from home_aluno;
+
 --	fim das visões	
+
 
