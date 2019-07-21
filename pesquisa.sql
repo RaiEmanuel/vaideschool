@@ -2,7 +2,10 @@ create table aluno(
 	matricula bigserial primary key,
 	nome varchar(150) not null,
 	rg varchar(15) not null,
-	senha varchar(64) not null
+	senha varchar(64) not null,
+	rua varchar(100),
+	numero smallint,
+	bairro varchar(40)
 );
 
 create table professor(
@@ -86,5 +89,5 @@ create view visao_alunos as (select d.idDisciplina as Código,a.nome as Nome,d.n
 							 
 							 
 							 
---	fim das visões		
+--	fim das visões	
 
