@@ -21,7 +21,7 @@ create table disciplina(
 	idDisciplina bigserial primary key,
 	nome varchar(50) not null,
 	carga_horaria smallint not null default 60,--60h
-	hora_aula float not null default 1,--1h a dura√ß√£o da aula
+	hora_aula float not null default 1,--1h a duraÁ„o da aula
 	check (carga_horaria > 0 and hora_aula > 0)
 );
 
@@ -39,7 +39,7 @@ create table turma(
 
 create table horario(
 	idHorario bigserial primary key,
-	horario varchar(6),
+	horario varchar(6) not null,
 	turma_idTurma bigserial references turma(idTurma) on delete cascade on update cascade
 );
 
@@ -52,13 +52,14 @@ create table turma_has_aluno(
 	p4 double precision default 0,
 	faltas smallint not null default 0,
 	aprovado boolean default false,
-	media_final double precision not null default 0
+	media_final double precision not null default 0,
+	primary key(turma_idTurma, aluno_matriculaAluno)
 );
 
 -- inserts
 
 insert into aluno values(default,'J','70495748623','20141084010110','Zema123');
-insert into aluno values (default,'Bor√≥','70495748623','20151084010110','Boro123');
+insert into aluno values (default,'BorÛ','70495748623','20151084010110','Boro123');
 
 insert into professor values(default,'Silvio','JACINTO P',42,'LAgoa Seca','Silvio123');
 insert into professor values(default,'PC','Augusta',69,'Centro','PC123');
@@ -78,10 +79,10 @@ insert into turma_has_aluno values(2,2,70,70,50,default,4,default,default);
 -- fim dos inserts
 
 
--- vis√µes
+-- visıes
 
-create view visao_alunos as (select d.idDisciplina as C√≥digo,a.nome as Nome,d.nome as Disciplina,
-							 tha.p1 as Unidade1,tha.p2 as Unidade2,tha.p3 as Unidade3,tha.p4 as Recuperac√£o
+create view visao_alunos as (select d.idDisciplina as CÛdigo,a.nome as Nome,d.nome as Disciplina,
+							 tha.p1 as Unidade1,tha.p2 as Unidade2,tha.p3 as Unidade3,tha.p4 as Recuperac„o
 							 ,tha.media_final as resultado,tha.faltas as faltas
 							 from aluno as a,disciplina as d, turma_has_aluno as tha, turma as t 
 							 where a.idaluno = tha.aluno_idAluno and tha.turma_idturma = t.idturma
@@ -96,6 +97,4 @@ create view home_aluno as (select d.nome as disciplina_nome ,t.local_aula as loc
 							 
 select * from home_aluno;
 
---	fim das vis√µes	
-
-
+--	fim das visıes	
