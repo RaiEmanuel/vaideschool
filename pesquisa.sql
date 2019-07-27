@@ -5,6 +5,7 @@ select * from horario
 select * from disciplina
 select * from turma
 
+
 select distinct t.idTurma, d.nome as disciplina ,t.local_aula as local ,h.horario as horario ,p.nome as professor
 from  turma as t, disciplina as d,horario as h,professor as p, aluno as a 
 where t.professor_matriculaprofessor = p.matricula and 
@@ -16,23 +17,19 @@ where t.professor_matriculaprofessor = p.matricula and
 t.disciplina_idDisciplina = d.idDisciplina and t.status = 'A'
 
 -- Seleciona as turmas que o aluno logado ainda nao se cadastrou
-select distinct turma.idturma, disc.nome as disciplina, turma.local_aula as local, horario.horario, prof.nome as professor from aluno
-inner join turma_has_aluno as tha
-on aluno.matricula = tha.aluno_matriculaaluno
-inner join turma 
-on tha.turma_idturma = turma.idturma
+select distinct turma.idturma, disc.nome as disciplina, turma.local_aula as local, horario.horario, prof.nome as professor from aluno, turma
 inner join professor as prof
 on turma.professor_matriculaprofessor = prof.matricula
 inner join disciplina as disc
 on turma.disciplina_iddisciplina = disc.iddisciplina
 inner join horario
 on  horario.turma_idturma = turma.idturma
-where tha.aluno_matriculaaluno not in (?) and turma.idturma not in (select turma.idturma from aluno
+where idturma not in (select distinct turma.idturma from aluno
 inner join turma_has_aluno as tha
 on aluno.matricula = tha.aluno_matriculaaluno
 inner join turma 
 on tha.turma_idturma = turma.idturma
-where aluno.matricula = ?) -- o mesmo id deve ir nas duas incognitas
+where aluno.matricula = ?) --incognita e o id do aluno logado
 
 --creates
 create table aluno(
@@ -143,6 +140,20 @@ create view home_aluno as (select d.nome as disciplina_nome ,t.local_aula as loc
 select * from home_aluno;
 
 --	fim das visões	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
