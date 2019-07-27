@@ -1,3 +1,40 @@
+select * from aluno
+select * from professor
+select * from turma_has_aluno
+select * from horario
+select * from disciplina
+select * from turma
+
+select distinct t.idTurma, d.nome as disciplina ,t.local_aula as local ,h.horario as horario ,p.nome as professor
+from  turma as t, disciplina as d,horario as h,professor as p, aluno as a 
+where t.professor_matriculaprofessor = p.matricula and 
+t.disciplina_idDisciplina = d.idDisciplina and t.status = 'A' and a.matricula not in (1)
+
+select distinct  t.idTurma, d.nome as disciplina ,t.local_aula as local ,h.horario as horario ,p.nome as professor
+from  turma as t, disciplina as d,horario as h,professor as p, aluno as a 
+where t.professor_matriculaprofessor = p.matricula and 
+t.disciplina_idDisciplina = d.idDisciplina and t.status = 'A'
+
+-- Seleciona as turmas que o aluno logado ainda nao se cadastrou
+select distinct turma.idturma, disc.nome as disciplina, turma.local_aula as local, horario.horario, prof.nome as professor from aluno
+inner join turma_has_aluno as tha
+on aluno.matricula = tha.aluno_matriculaaluno
+inner join turma 
+on tha.turma_idturma = turma.idturma
+inner join professor as prof
+on turma.professor_matriculaprofessor = prof.matricula
+inner join disciplina as disc
+on turma.disciplina_iddisciplina = disc.iddisciplina
+inner join horario
+on  horario.turma_idturma = turma.idturma
+where tha.aluno_matriculaaluno not in (?) and turma.idturma not in (select turma.idturma from aluno
+inner join turma_has_aluno as tha
+on aluno.matricula = tha.aluno_matriculaaluno
+inner join turma 
+on tha.turma_idturma = turma.idturma
+where aluno.matricula = ?) -- o mesmo id deve ir nas duas incognitas
+
+--creates
 create table aluno(
 	matricula bigserial primary key,
 	nome varchar(150) not null,
@@ -21,7 +58,7 @@ create table disciplina(
 	idDisciplina bigserial primary key,
 	nome varchar(50) not null,
 	carga_horaria smallint not null default 60,--60h
-	hora_aula float not null default 1,--1h a duraÁ„o da aula
+	hora_aula float not null default 1,--1h a dura√ß√£o da aula
 	check (carga_horaria > 0 and hora_aula > 0)
 );
 
@@ -59,30 +96,38 @@ create table turma_has_aluno(
 -- inserts
 
 insert into aluno values(default,'J','70495748623','20141084010110','Zema123');
-insert into aluno values (default,'BorÛ','70495748623','20151084010110','Boro123');
+insert into aluno values (default,'Bor√≥','70495748623','20151084010110','Boro123');
 
 insert into professor values(default,'Silvio','JACINTO P',42,'LAgoa Seca','Silvio123');
 insert into professor values(default,'PC','Augusta',69,'Centro','PC123');
 
 insert into disciplina values(default,'Arquitetura',60,1);
 insert into disciplina values(default,'Discreta',60,1);
+insert into disciplina values (default, 'POO', 60, 60);
 
 insert into turma values(default,'LAB 4','A',1,1),
 				 (default,'Central de aulas 5 sala 3','A',2,2);
+insert into turma values (default, 'LCC', 'A', 1, 1);
 
 insert into horario values(default,'35M34',1),
 						  (default,'35M12',2);
+
 						  
 insert into turma_has_aluno values(1,1,75,80,60,default,12,default,default);
 insert into turma_has_aluno values(2,2,70,70,50,default,4,default,default);
 
+
+
+
+
+
 -- fim dos inserts
 
 
--- visıes
+-- vis√µes
 
-create view visao_alunos as (select d.idDisciplina as CÛdigo,a.nome as Nome,d.nome as Disciplina,
-							 tha.p1 as Unidade1,tha.p2 as Unidade2,tha.p3 as Unidade3,tha.p4 as Recuperac„o
+create view visao_alunos as (select d.idDisciplina as C√≥digo,a.nome as Nome,d.nome as Disciplina,
+							 tha.p1 as Unidade1,tha.p2 as Unidade2,tha.p3 as Unidade3,tha.p4 as Recuperac√£o
 							 ,tha.media_final as resultado,tha.faltas as faltas
 							 from aluno as a,disciplina as d, turma_has_aluno as tha, turma as t 
 							 where a.idaluno = tha.aluno_idAluno and tha.turma_idturma = t.idturma
@@ -97,4 +142,10 @@ create view home_aluno as (select d.nome as disciplina_nome ,t.local_aula as loc
 							 
 select * from home_aluno;
 
---	fim das visıes	
+--	fim das vis√µes	
+
+
+
+
+
+
