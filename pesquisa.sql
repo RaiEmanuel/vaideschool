@@ -1,5 +1,3 @@
-
-
 select * from aluno
 select * from professor
 select * from turma_has_aluno
@@ -58,10 +56,8 @@ create table disciplina(
 	nome varchar(50) not null,
 	carga_horaria smallint not null default 60,--60h
 	hora_aula float not null default 1,--1h a duração da aula
-	check (carga_horaria > 0 and hora_aula > 0)
+	check (carga_horaria > 0 and hora_aula > 0 and carga_horaria >= hora_aula)
 );
-
-
 
 create type statusTurma as enum ('A','F');--aberta e fechada
 
@@ -142,6 +138,7 @@ create view home_aluno as (select d.nome as disciplina_nome ,t.local_aula as loc
 select * from home_aluno;
 
 --	fim das visões	
+
 
 
 
