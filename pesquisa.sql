@@ -1,3 +1,5 @@
+
+
 select * from aluno
 select * from professor
 select * from turma_has_aluno
@@ -24,12 +26,12 @@ inner join disciplina as disc
 on turma.disciplina_iddisciplina = disc.iddisciplina
 inner join horario
 on  horario.turma_idturma = turma.idturma
-where idturma not in (select distinct turma.idturma from aluno
+where turma.status = 'A' and idturma not in (select distinct turma.idturma from aluno
 inner join turma_has_aluno as tha
 on aluno.matricula = tha.aluno_matriculaaluno
 inner join turma 
 on tha.turma_idturma = turma.idturma
-where aluno.matricula = ?) --incognita e o id do aluno logado
+where aluno.matricula = ?) ;--incognita e o id do aluno logado
 
 --creates
 create table aluno(
@@ -140,6 +142,10 @@ create view home_aluno as (select d.nome as disciplina_nome ,t.local_aula as loc
 select * from home_aluno;
 
 --	fim das visões	
+
+
+
+
 
 
 
