@@ -34,7 +34,7 @@ where aluno.matricula = ?) ;--incognita e o id do aluno logado
 --creates
 create table aluno(
 	matricula bigserial primary key,
-	nome varchar(150) not null,
+	nome varchar(150) not null unique,
 	rg varchar(15) not null,
 	senha varchar(64) not null,
 	rua varchar(100),
@@ -44,7 +44,7 @@ create table aluno(
 
 create table professor(
 	matricula bigserial primary key,
-	nome varchar(150) not null,
+	nome varchar(150) not null unique,
 	rua varchar(100),
 	numero smallint,
 	bairro varchar(40),
@@ -53,7 +53,7 @@ create table professor(
 
 create table disciplina(
 	idDisciplina bigserial primary key,
-	nome varchar(50) not null,
+	nome varchar(50) not null unique,
 	carga_horaria smallint not null default 60,--60h
 	hora_aula float not null default 1,--1h a duração da aula
 	check (carga_horaria > 0 and hora_aula > 0 and carga_horaria >= hora_aula)
